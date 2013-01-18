@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1878E10A16A940DC0024A0E0 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1878E10916A940DC0024A0E0 /* red.png */; };
+		1878E10F16A940F90024A0E0 /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1878E10E16A940F80024A0E0 /* green.png */; };
 		E33C212113CB47BB006833E2 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E33C212013CB47BB006833E2 /* bg.png */; };
 		E3A07A9F13CB3FBD0003A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A07A9E13CB3FBD0003A9E0 /* QuartzCore.framework */; };
 		E3A07AA113CB3FBD0003A9E0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A07AA013CB3FBD0003A9E0 /* OpenGLES.framework */; };
@@ -128,6 +130,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1878E10916A940DC0024A0E0 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		1878E10E16A940F80024A0E0 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
 		E33C212013CB47BB006833E2 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		E3A07A9A13CB3FBD0003A9E0 /* pixel-perfect-collision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixel-perfect-collision.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3A07A9E13CB3FBD0003A9E0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -439,6 +443,8 @@
 		E3A07AAF13CB3FBD0003A9E0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1878E10E16A940F80024A0E0 /* green.png */,
+				1878E10916A940DC0024A0E0 /* red.png */,
 				E3A07C1F13CB416D0003A9E0 /* graphics */,
 				E3A07AB013CB3FBD0003A9E0 /* Default.png */,
 				E3A07AB213CB3FBD0003A9E0 /* fps_images.png */,
@@ -838,6 +844,8 @@
 				E3A07C2213CB416D0003A9E0 /* ship1.png in Resources */,
 				E3A07C2313CB416D0003A9E0 /* ship2.png in Resources */,
 				E33C212113CB47BB006833E2 /* bg.png in Resources */,
+				1878E10A16A940DC0024A0E0 /* red.png in Resources */,
+				1878E10F16A940F90024A0E0 /* green.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

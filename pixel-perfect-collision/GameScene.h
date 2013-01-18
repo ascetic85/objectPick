@@ -8,6 +8,11 @@
     CCSprite *_enemy1;
     CCSprite *_enemy2;
     CCRenderTexture* _rt;
+    
+    CCSprite *_red;
+    CCSprite *_green;
+    
+    BOOL    _pressed;
 }
 
 @property (nonatomic,assign) CCSprite *_ship;
@@ -19,6 +24,7 @@
 
 -(void) checkCollisions;
 -(BOOL) isCollisionBetweenSpriteA:(CCSprite*)spr1 spriteB:(CCSprite*)spr2 pixelPerfect:(BOOL)p;
--(BOOL) pickSprite:(CGPoint) pos sprites:(NSMutableArray*) sprites;
+
+-(BOOL) isCollisionBetweenSpriteA2:(CCSprite*)spr1 spriteB:(CCSprite*)spr2 pixelPerfect:(BOOL)pp position:(CGPoint) pos;
 
 @end
