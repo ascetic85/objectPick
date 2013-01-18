@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1878E10A16A940DC0024A0E0 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1878E10916A940DC0024A0E0 /* red.png */; };
+		1878E10F16A940F90024A0E0 /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1878E10E16A940F80024A0E0 /* green.png */; };
 		E33C212113CB47BB006833E2 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E33C212013CB47BB006833E2 /* bg.png */; };
 		E3A07A9F13CB3FBD0003A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A07A9E13CB3FBD0003A9E0 /* QuartzCore.framework */; };
 		E3A07AA113CB3FBD0003A9E0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A07AA013CB3FBD0003A9E0 /* OpenGLES.framework */; };
@@ -122,12 +124,14 @@
 		E3A07BFF13CB3FC00003A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A07BFE13CB3FC00003A9E0 /* main.m */; };
 		E3A07C0213CB3FC00003A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A07C0113CB3FC00003A9E0 /* AppDelegate.m */; };
 		E3A07C0513CB3FC00003A9E0 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A07C0413CB3FC00003A9E0 /* RootViewController.m */; };
-		E3A07C1E13CB41270003A9E0 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A07C1D13CB41270003A9E0 /* GameScene.m */; };
+		E3A07C1E13CB41270003A9E0 /* GameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3A07C1D13CB41270003A9E0 /* GameScene.mm */; };
 		E3A07C2213CB416D0003A9E0 /* ship1.png in Resources */ = {isa = PBXBuildFile; fileRef = E3A07C2013CB416D0003A9E0 /* ship1.png */; };
 		E3A07C2313CB416D0003A9E0 /* ship2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3A07C2113CB416D0003A9E0 /* ship2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1878E10916A940DC0024A0E0 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		1878E10E16A940F80024A0E0 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
 		E33C212013CB47BB006833E2 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		E3A07A9A13CB3FBD0003A9E0 /* pixel-perfect-collision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixel-perfect-collision.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3A07A9E13CB3FBD0003A9E0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -363,7 +367,7 @@
 		E3A07C0413CB3FC00003A9E0 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		E3A07C0913CB3FC00003A9E0 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		E3A07C1C13CB41270003A9E0 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
-		E3A07C1D13CB41270003A9E0 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		E3A07C1D13CB41270003A9E0 /* GameScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameScene.mm; sourceTree = "<group>"; };
 		E3A07C2013CB416D0003A9E0 /* ship1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship1.png; sourceTree = "<group>"; };
 		E3A07C2113CB416D0003A9E0 /* ship2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -428,7 +432,7 @@
 				E3A07C0413CB3FC00003A9E0 /* RootViewController.m */,
 				E3A07C0913CB3FC00003A9E0 /* GameConfig.h */,
 				E3A07C1C13CB41270003A9E0 /* GameScene.h */,
-				E3A07C1D13CB41270003A9E0 /* GameScene.m */,
+				E3A07C1D13CB41270003A9E0 /* GameScene.mm */,
 				E3A07AAF13CB3FBD0003A9E0 /* Resources */,
 				E3A07AC313CB3FBE0003A9E0 /* libs */,
 				E3A07BFC13CB3FC00003A9E0 /* Supporting Files */,
@@ -439,6 +443,8 @@
 		E3A07AAF13CB3FBD0003A9E0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1878E10E16A940F80024A0E0 /* green.png */,
+				1878E10916A940DC0024A0E0 /* red.png */,
 				E3A07C1F13CB416D0003A9E0 /* graphics */,
 				E3A07AB013CB3FBD0003A9E0 /* Default.png */,
 				E3A07AB213CB3FBD0003A9E0 /* fps_images.png */,
@@ -838,6 +844,8 @@
 				E3A07C2213CB416D0003A9E0 /* ship1.png in Resources */,
 				E3A07C2313CB416D0003A9E0 /* ship2.png in Resources */,
 				E33C212113CB47BB006833E2 /* bg.png in Resources */,
+				1878E10A16A940DC0024A0E0 /* red.png in Resources */,
+				1878E10F16A940F90024A0E0 /* green.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,7 +953,7 @@
 				E3A07BFF13CB3FC00003A9E0 /* main.m in Sources */,
 				E3A07C0213CB3FC00003A9E0 /* AppDelegate.m in Sources */,
 				E3A07C0513CB3FC00003A9E0 /* RootViewController.m in Sources */,
-				E3A07C1E13CB41270003A9E0 /* GameScene.m in Sources */,
+				E3A07C1E13CB41270003A9E0 /* GameScene.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
