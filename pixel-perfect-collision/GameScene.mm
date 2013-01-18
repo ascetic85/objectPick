@@ -2,6 +2,11 @@
 #import "GameScene.h"
 #include <map>
 
+@interface GameScene() {
+std::map<int, NSString*> m_colorSpriteMap;
+}
+@end
+
 @implementation GameScene
 
 @synthesize _ship;
@@ -9,7 +14,6 @@
 @synthesize _enemy2;
 @synthesize _rt;
 
-std::map<int, CCSprite*> gDict;
 
 /*--------------------------------------------------*/
 
@@ -27,14 +31,15 @@ std::map<int, CCSprite*> gDict;
 {
     m_dict = [NSMutableDictionary dictionary];
     
-    int z = 1;
+    int z = -1;
     // create some test color sprite
     _red = [CCSprite spriteWithFile:@"red.png"];
     [[_red texture] setAliasTexParameters];
     _red.position = ccp(10, 10);
+    _red.visible = NO; // 看不见 检测不到
     [parent addChild:_red z:z];
     
-    gDict[255] = _red;
+    m_colorSpriteMap[255] = @"red";
     
 
     _green = [CCSprite spriteWithFile:@"green.png"];
@@ -42,7 +47,7 @@ std::map<int, CCSprite*> gDict;
     _green.position = ccp(100, 100);
     [parent addChild:_green z:z];
     
-    gDict[254] = _green;
+    m_colorSpriteMap[59] = @"green";
 
 }
 
@@ -276,14 +281,14 @@ std::map<int, CCSprite*> gDict;
     [_green visit];
     glColorMask(1, 1, 1, 1);
     
-    [_rt end];
+//    [_rt end];
     
     
     // Get color values of intersection area
     ccColor4B *buffer = (ccColor4B*) malloc( sizeof(ccColor4B) * numPixels );
     glReadPixels(x, y, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         
-
+    [_rt end];
     
     
         
@@ -293,7 +298,9 @@ std::map<int, CCSprite*> gDict;
     {
         ccColor4B color = buffer[i];
         CCLOG(@"#########%d %d %d", color.r, color.g, color.b);
-        [m_rgbInfo setString:[NSString stringWithFormat:@"%d %d %d %d", color.r, color.g, color.b, color.a]];
+        int r = color.r;
+        [m_rgbInfo setString:[NSString stringWithFormat:@"%d %d %d %d :%@"
+                              , color.r, color.g, color.b, color.a, m_colorSpriteMap[r]]];
         
 //        if (color.r == 255) {
 //            gDict[255].color = ccc3(0, 255, 0);

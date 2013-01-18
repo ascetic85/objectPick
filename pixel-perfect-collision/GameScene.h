@@ -2,7 +2,6 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-
 @interface GameScene : CCLayer
 {
     CCSprite *_ship;
