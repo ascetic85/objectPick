@@ -1,5 +1,6 @@
 
 #import "GameScene.h"
+#include <map>
 
 @implementation GameScene
 
@@ -7,6 +8,8 @@
 @synthesize _enemy1;
 @synthesize _enemy2;
 @synthesize _rt;
+
+std::map<int, CCSprite*> gDict;
 
 /*--------------------------------------------------*/
 
@@ -20,13 +23,40 @@
 
 /*--------------------------------------------------*/
 
+-(void) createColorTestSprite:(CCNode*) parent
+{
+    m_dict = [NSMutableDictionary dictionary];
+    
+    int z = 1;
+    // create some test color sprite
+    _red = [CCSprite spriteWithFile:@"red.png"];
+    [[_red texture] setAliasTexParameters];
+    _red.position = ccp(10, 10);
+    [parent addChild:_red z:z];
+    
+    gDict[255] = _red;
+    
+
+    _green = [CCSprite spriteWithFile:@"green.png"];
+    [[_green texture] setAliasTexParameters];
+    _green.position = ccp(100, 100);
+    [parent addChild:_green z:z];
+    
+    gDict[254] = _green;
+
+}
+
 -(id) init
 {
     if ((self = [super init]))
     {
         self.isTouchEnabled = YES;
+        _pressed = NO;
         
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        CCNode* cameraSprite = [CCNode node];
+        [self addChild:cameraSprite];
         
         // Background from Mosquito's Insomnia title screen :D
         CCSprite *bg = [CCSprite spriteWithFile:@"bg.png"];
@@ -34,23 +64,23 @@
         bg.anchorPoint = ccp(0,0);
         bg.position = ccp(0,0);
 //        bg.opacity = 100;
-        [self addChild:bg];
+        [cameraSprite addChild:bg];
         
         // Add text
         CCLabelTTF *l = [CCLabelTTF labelWithString:@"PIXEL PERFECT COLLISION DETECTION" fontName:@"Arial" fontSize:14];
         l.anchorPoint = ccp(0.5f,1);
         l.position = ccp(winSize.width*0.5f,winSize.height*0.95f);
-        [self addChild:l];
+        [bg addChild:l];
         
         CCLabelTTF *l2 = [CCLabelTTF labelWithString:@"Touch to move the player ship" fontName:@"Arial" fontSize:14];
         l2.anchorPoint = ccp(0.5f,1);
         l2.position = ccp(winSize.width*0.5f,winSize.height*0.9f);
-        [self addChild:l2];
+        [bg addChild:l2];
         
         // create render texture and make it visible for testing purposes
         _rt = [CCRenderTexture renderTextureWithWidth:winSize.width height:winSize.height];
         _rt.position = ccp(winSize.width*0.5f,winSize.height*0.1f);
-        [self addChild:_rt];
+        [bg addChild:_rt];
         _rt.visible = YES;
         
         // create player ship
@@ -58,20 +88,33 @@
         [[_ship texture] setAliasTexParameters];
         _ship.rotation = 90;
         _ship.position = ccp(winSize.width*0.5f, winSize.height*0.4);
-        [self addChild:_ship z:1];
+        [bg addChild:_ship z:1];
         
         // create some enemies
         _enemy1 = [CCSprite spriteWithFile:@"ship2.png"];
         [[_enemy1 texture] setAliasTexParameters];
         _enemy1.rotation = 0;
         _enemy1.position = ccp(winSize.width*0.4f, winSize.height*0.65);
-        [self addChild:_enemy1 z:-1];
+        [bg addChild:_enemy1 z:-1];
         
         _enemy2 = [CCSprite spriteWithFile:@"ship2.png"];
         [[_enemy2 texture] setAliasTexParameters];
         _enemy2.rotation = 270;
         _enemy2.position = ccp(winSize.width*0.6f, winSize.height*0.65);
-        [self addChild:_enemy2 z:0];
+        [bg addChild:_enemy2 z:0];
+        
+        
+        [self createColorTestSprite:cameraSprite];
+        
+        CCCamera* camera = [cameraSprite camera];
+        float x, y, z;
+        [camera eyeX:&x eyeY:&y eyeZ:&z];
+        [camera setEyeX:x eyeY:y-0.0000001 eyeZ:z];
+        
+        m_rgbInfo = [CCLabelTTF labelWithString:@"........" fontName:@"Arial" fontSize:20];
+        m_rgbInfo.position = ccp(winSize.width/2, winSize.height*0.8);
+        
+        [self addChild:m_rgbInfo];
         
         // schedule update method
         [self scheduleUpdate];
@@ -116,6 +159,11 @@
     {
         _enemy2.color = ccc3(255,255,255);
     }
+    
+//    if ([self isCollisionBetweenSpriteA:_ship spriteB:_green pixelPerfect:YES])
+//        _green.color = ccc3(255, 0, 0);
+//    else
+//        _green.color = ccc3(255, 255, 255);
 }
 
 /*--------------------------------------------------*/
@@ -142,7 +190,8 @@
         
         // Draw into the RenderTexture
         [_rt beginWithClear:0 g:0 b:0 a:0];
-        
+
+
         // Render both sprites: first one in RED and second one in GREEN
         glColorMask(1, 0, 0, 1);
         [spr1 visit];
@@ -151,7 +200,7 @@
         glColorMask(1, 1, 1, 1);
         
         // Get color values of intersection area
-        ccColor4B *buffer = malloc( sizeof(ccColor4B) * numPixels );
+        ccColor4B *buffer = (ccColor4B*) malloc( sizeof(ccColor4B) * numPixels );
         glReadPixels(x, y, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         
         /******* All this is for testing purposes *********/
@@ -194,7 +243,7 @@
                         
             if (color.r > 0 && color.g > 0)
             {
-                CCLOG(@"%d,%d,%d,%d", color.r, color.g, color.b, color.a);
+//                CCLOG(@"%d,%d,%d,%d", color.r, color.g, color.b, color.a);
                 isCollision = YES;
                 break;
             }
@@ -207,46 +256,73 @@
     return isCollision;
 }
 
--(BOOL) pickSprite:(CGPoint) pos sprites:(NSMutableArray*) sprites
+-(BOOL) isCollisionBetweenSpriteA2:(CCSprite*)spr1 spriteB:(CCSprite*)spr2 pixelPerfect:(BOOL)pp position:(CGPoint) pos
 {
-    _rt.visible = FALSE;
-    [_rt beginWithClear:0 g:0 b:0 a:0];
-    // Render both sprites: first one in RED and second one in GREEN
-    glColorMask(1, 0, 0, 0);
-    
-    for (CCSprite* spr in sprites) {
-        [spr visit];
-    }
+    BOOL isCollision = NO;
 
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    CGSize displaySize = [[CCDirector sharedDirector] winSizeInPixels];
+    // Get intersection info
+    unsigned int x = pos.x;
+    unsigned int y = pos.y;
+    unsigned int w = 1;
+    unsigned int h = 1;
+    unsigned int numPixels = w * h;
+        
+
+    // Draw into the RenderTexture
+    [_rt beginWithClear:0 g:0 b:0 a:0];
+
+    // Render both sprites: first one in RED and second one in GREEN
+    [_red visit];
+    [_green visit];
+    glColorMask(1, 1, 1, 1);
     
-    float widthFactor = displaySize.width / winSize.width;
-    float heightFactor = displaySize.height / winSize.height;
+    [_rt end];
+    
     
     // Get color values of intersection area
-    int width = 1;
-    int height = 1;
-    
-    GLubyte* data = (GLubyte*) malloc(width*height*4*sizeof(GLubyte));
-    
-    glReadPixels(pos.x*widthFactor, pos.y*heightFactor, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    
-    for (int i = 0; i < width*height; i++) {
+    ccColor4B *buffer = (ccColor4B*) malloc( sizeof(ccColor4B) * numPixels );
+    glReadPixels(x, y, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         
-        CCLOG(@"pos:%lf,%lf ==> %d %d %d %d", pos.x, pos.y, data[0], data[1], data[2], data[3]);
+
+    
+    
         
-        data++;
+    // Read buffer
+    unsigned int step = 1;
+    for(unsigned int i=0; i<numPixels; i+=step)
+    {
+        ccColor4B color = buffer[i];
+        CCLOG(@"#########%d %d %d", color.r, color.g, color.b);
+        [m_rgbInfo setString:[NSString stringWithFormat:@"%d %d %d %d", color.r, color.g, color.b, color.a]];
         
+//        if (color.r == 255) {
+//            gDict[255].color = ccc3(0, 255, 0);
+//        } else {
+//            gDict[255].color = ccc3(255, 255, 255);
+//        }
+//        
+//        if (color.g == 255)
+//            gDict[254].color = ccc3(255,0,0);
+//        else
+//            gDict[254].color = ccc3(255,255,255);
+        
+        if (color.r > 0 && color.g > 0)
+        {
+            isCollision = YES;
+            break;
+        }
+        
+    
     }
-    
 
-
-    [_rt end];
-    _rt.visible = TRUE;
+        
     
-    return TRUE;
+    // Free buffer memory
+    free(buffer);
+  
+    return isCollision;
 }
+
 
 /*******************************************************************************************/
 
@@ -269,11 +345,15 @@
 {
 	_ship.position = [self getTouchesLocation:touches];
     
-    // test pick sprite
-//    NSMutableArray *sprites = [NSMutableArray array];
-//    [sprites addObject:_enemy1];
-//    [sprites addObject:_enemy2];
-//    [self pickSprite: [self getTouchesLocation:touches] sprites:sprites];
+    //
+    //
+    //
+    [self isCollisionBetweenSpriteA2:_ship
+                             spriteB:_red
+                        pixelPerfect:YES
+                            position:[self getTouchesLocation:touches]];
+    
+    
 }
 
 /*_________________________________________________________________________________________*/
